@@ -1,6 +1,5 @@
 package com.data;
 
-import java.sql.Blob;
 import java.util.Date;
 
 import javax.persistence.Column;
@@ -8,18 +7,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.Lob;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.Transient;
-
-import org.springframework.web.multipart.MultipartFile;
 
 @Entity
-@Table(name="employee")
-public class Employee {
-
+@Table(name="archive")
+public class Archive{
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int id;
@@ -43,7 +35,6 @@ public class Employee {
 	private String gender;
 	
 	@Column(name="Dob")
-	@Temporal(TemporalType.DATE)
 	private Date dob;
 	
 	@Column(name="Address")
@@ -61,42 +52,7 @@ public class Employee {
 	@Column(name="Role")
 	private String role;
 	
-	@Column(name="image")
-	@Lob
-	private Blob imageFile;
 	
-	@Transient
-	private MultipartFile image;
-	
-	@Transient
-	private String base64image;
-	
-	
-	
-	public Blob getImageFile() {
-		return imageFile;
-	}
-
-	public void setImageFile(Blob imageFile) {
-		this.imageFile = imageFile;
-	}
-
-	public MultipartFile getImage() {
-		return image;
-	}
-
-	public void setImage(MultipartFile image) {
-		this.image = image;
-	}
-
-	public String getBase64image() {
-		return base64image;
-	}
-
-	public void setBase64image(String base64image) {
-		this.base64image = base64image;
-	}
-
 	public String getRole() {
 		return role;
 	}
@@ -161,7 +117,7 @@ public class Employee {
 		this.gender = gender;
 	}
 
-	
+
 
 	public Date getDob() {
 		return dob;
@@ -170,6 +126,8 @@ public class Employee {
 	public void setDob(Date dob) {
 		this.dob = dob;
 	}
+
+	
 
 	public String getAddress() {
 		return address;
@@ -205,12 +163,11 @@ public class Employee {
 
 	@Override
 	public String toString() {
-		return "Employee [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", phoneNumber="
+		return "Archive [id=" + id + ", firstName=" + firstName + ", lastName=" + lastName + ", phoneNumber="
 				+ phoneNumber + ", email=" + email + ", status=" + status + ", gender=" + gender + ", dob=" + dob
 				+ ", address=" + address + ", department=" + department + ", password=" + password + ", payroll="
 				+ payroll + ", role=" + role + "]";
 	}
 
-	
-	
+
 }
