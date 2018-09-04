@@ -1,55 +1,70 @@
-body,html{
-	margin: 0;
-	padding: 0;
-	height: 100%;
-	width: 100%;
-	font-family: sans-serif;
-} 
-.navbar{
-       margin-bottom: 0;
-       background:#454545;
-    }
-#change li a {
-    color: white;
-}
-.logo{
-	width:100%;
-	height:150px;
-}
-.staff{
-	padding:0% 40% 0% 0%;
-}
-.right{
-	text-align:right;
-}
-.right-bottom{
-	position:absolute;
-	bottom:0;
-	right:0;
+.navbar {
+	margin-bottom: 0;
+	background: #454545;
 }
 
-.side{
+.myContainer {
+	padding-right: 15px;
+	padding-left: 0px;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+#change li a {
+	color: white;
+}
+
+#sideUl li {
+	color: black;
+	cursor: pointer;
+}
+
+#sideUl li:hover {
+	color: white;
+	background-color: #248f24;
+}
+
+.logo {
+	width: 100%;
+	height: 150px;
+}
+
+.staff {
+	padding: 0% 40% 0% 0%;
+}
+
+.right {
+	text-align: right;
+}
+
+.right-bottom {
+	position: absolute;
+	bottom: 0;
+	right: 0;
+}
+
+.side {
 	float: left;
 	width: 200px;
-	height: 500px;
-	background:	#D3D3D3;
+	height: 450px;
+	background: #5cb85c;
 	overflow: hidden;
-	left: -200px;
-	
 }
-.side.active{
+
+side.active {
 	left: 0px;
 }
-.side ul{
+
+.side ul {
 	margin: 0;
 	padding: 0;
 }
-.side ul li{
+
+.side ul li {
 	color: rgba(22, 21, 21, 0.9);
 	list-style: none;
 	padding: 15px 10px;
-	border-bottom: 1px solid rgba(100, 100,100, 0.3);
-	
+	border-bottom: 1px solid rgba(100, 100, 100, 0.3);
 }
 
 /*.sidebar ul li a{
@@ -63,19 +78,98 @@ body,html{
 	display: block;
 	transition: 0.6s all;
 
-}*/
+}
 .side ul li a:hover{
 	background: #008080;
-}
-.toggle-btn{
+} */
+.toggle-btn {
 	position: absolute;
 	left: 230px;
-
 }
- .toggle-btn span{
-	display:block;
+
+.toggle-btn span {
+	display: block;
 	width: 30px;
 	height: 5px;
 	background: #151719;
 	margin: 5px 0px;
+}
+
+.footer {
+	position: fixed;
+	left: 0;
+	bottom: 0;
+	width: 100%;
+	background-color: #454545;
+	color: white;
+	text-align: center;
+	padding: 0px 30px;
+}
+
+.footer-left {
+	vertical-align: top;
+	line-height: 28px;
+	display: inline;
+	float: left;
+}
+
+.footer-center {
+	line-height: 28px;
+	float: center;
+}
+
+input[type=text] {
+	background-color: #f2f2f2;
+}
+
+input[type=password] {
+	background-color: #f2f2f2;
+}
+
+input[type=email] {
+	background-color: #f2f2f2;
+}
+
+input[type=email]:focus {
+	background-color: #ffffff;
+}
+
+input[type=text]:focus {
+	background-color: #ffffff;
+}
+
+input[type=password]:focus {
+	background-color: #ffffff;
+}
+
+#image-container {
+	background-image: url("/FileManagement/resources/images/employee.jpg");
+	display: block;
+	max-width: 100%;
+	height: auto;
+}
+.media-object{
+	width:200px;
+	height:200px;
+	border: 1px solid #d9d9d9;
+	border-radius: 10px;
+}
+.btn-file {
+	position: relative;
+	overflow: hidden;
+}
+.btn-file input[type=file] {
+	position: absolute;
+	top: 0;
+	right: 0;
+	min-width: 100%;
+	min-height: 100%;
+	font-size: 100px;
+	text-align: right;
+	filter: alpha(opacity = 0);
+	opacity: 0;
+	outline: none;
+	background: white;
+	cursor: inherit;
+	display: block;
 }
