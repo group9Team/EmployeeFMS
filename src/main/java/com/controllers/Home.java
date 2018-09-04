@@ -14,6 +14,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.security.authentication.encoding.ShaPasswordEncoder;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -51,6 +52,8 @@ public class Home {
 	@Autowired
     private JavaMailSender mailSender;
 	
+	
+	
 	@RequestMapping("/")
 	public String goHome() {
 		return "home";
@@ -85,7 +88,10 @@ public class Home {
 	@RequestMapping(value="/registerEmployee",method=RequestMethod.POST)
 	@ResponseBody
 	public String registerEmp(@ModelAttribute Employee employee) {
-		System.out.println(employee);
+		//System.out.println(employee);
+		ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
+		String encodedPassword = encoder.encodePassword(employee.getPassword(),null);
+		employee.setPassword(encodedPassword);
 		employee.setRole("ROLE_EMPLOYEE");
 		empRepo.save(employee);
 		return "Register was successful";
@@ -174,16 +180,18 @@ public class Home {
 	@RequestMapping("/changeRole")
 	@ResponseBody
 	public String changeRole(@ModelAttribute  EmpRole role) {
+		if(empRepo.findByPayrollEquals(role.getPayroll()) == null) {
+			return role.getPayroll()+ " does not exist";
+		}else {
 		Employee employee = empRepo.findByPayrollEquals(role.getPayroll());
 		employee.setRole(role.getRole());
 		empRepo.save(employee);
-		return "Role changed";
+		}
+		return "Role changed successfully";
+		
 	}
 	
-	@RequestMapping(value="/login", method=RequestMethod.GET)
-	public String login() {
-		return "login";
-	}
+	
 
 	@RequestMapping(value="/getEmployee", method=RequestMethod.POST)
 	@ResponseBody
@@ -192,6 +200,31 @@ public class Home {
 		Employee employee = empRepo.findByPayrollEquals(thisPayroll);
 		return employee;
 	}
+/*	@RequestMapping(value="/getLimitedEmployee", method=RequestMethod.POST)
+	@ResponseBody
+	public Employee findLimitedEmployee(@ModelAttribute Payroll payroll) {
+		String name = SecurityContextHolder.getContext().getAuthentication().getName();
+		Employee employee = empRepo.findByPayrollEquals(name);
+		String department = employee.getDepartment();
+		List<String> data = limitedRepo.findByDepartmentEquals(department);
+       
+		String combined = "";
+		
+		for(int i=0; i<data.size(); i++) {
+			combined += data.get(i);
+			data.remove(i);
+			if(!(data.isEmpty())) {
+				combined += ",";
+			}
+		}
+		
+		JdbcTemplate jdbc = new JdbcTemplate();
+		Employee emp = (Employee)jdbc.query("select "+combined+ "from employee where payroll = "+ payroll.getPayroll(),Employee.class);
+		
+		
+		return emp;
+	}
+	*/
 	
 	@RequestMapping("/addImage")
 	@ResponseBody
@@ -214,12 +247,17 @@ public class Home {
 		String name = SecurityContextHolder.getContext().getAuthentication().getName();
 		Employee employee = empRepo.findByPayrollEquals(name);
 		String existingPassword = employee.getPassword();
-		if(!(password.getCurrentPassword().equals(existingPassword))) {
+		ShaPasswordEncoder encoder = new ShaPasswordEncoder(256);
+		String encodedCurrentPassword = encoder.encodePassword(password.getCurrentPassword(),null);
+		if(!(encodedCurrentPassword.equals(existingPassword))) {
 			return "You entered a wrong current password";
 		}else {
-			employee.setPassword(password.getNewPassword());
+			String newPassword = encoder.encodePassword(password.getNewPassword(), null);
+			employee.setPassword(newPassword);
 			empRepo.save(employee);
 		}
+		
+		
 		return "Password changed successfully";
 	}
 	@RequestMapping("/sendEmail")
@@ -240,6 +278,24 @@ public class Home {
 		mailSender.send(email);
 		
 		return "All emails have been sent";
+	}
+	
+	@RequestMapping("/sendComment")
+	@ResponseBody
+	public String sendComment(@ModelAttribute EmailInfo emailInfo) {
+		String subject = emailInfo.getSubject();
+		String message = emailInfo.getMessage();
+		
+		SimpleMailMessage email = new SimpleMailMessage();
+		
+			String address = "shaddygimmz@gmail.com";
+			email.setTo(address);
+			email.setSubject(subject);
+			email.setText(message);
+		
+		mailSender.send(email);
+		
+		return "Your comment has been sent";
 	}
 	
 }

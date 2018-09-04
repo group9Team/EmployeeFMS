@@ -47,10 +47,14 @@
 					<sec:csrfInput />
 					<button class="btn btn-success">Login</button>
 				</form>
-				<c:if test="${param.logout != null }">
+				<c:if test="${param.logout == true }">
 				<br>
 					<p style="color: green">You have successfully been logged out.</p>
 				</c:if>
+			    <c:if test="${param.failed == true}">
+			    <br>
+			      <p style="color: red">Wrong payroll number or password</p>
+			    </c:if>
 			</div>
 			<div class="col-sm-3"></div>
 		</div>

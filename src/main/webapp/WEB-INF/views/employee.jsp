@@ -82,7 +82,7 @@
 						</form>
 					</div>
 					<button class="btn btn-success" data-target="#passwordModal"
-						data-toggle="modal">Change Password</button>
+						data-toggle="modal">Change Password?</button>
 					<h5 id="passwordFormResponse" style="color: green"></h5>
 				</div>
 
@@ -185,11 +185,18 @@
 
 				<div hidden id="hide9">
 					<h3>Write your comment</h3>
-					<div class="form-group right">
-						<textarea rows="6" cols="100" class="form-control"></textarea>
-						<br>
-						<button class="btn btn-success">Send</button>
-					</div>
+					<form id="commentForm">
+						<div class="form-group right">
+							<input class="form-control" name="subject" placeholder="Subject" />
+							<br>
+							<textarea rows="6" cols="100" class="form-control" name="message"
+								placeholder="your comment"></textarea>
+							<br>
+							<button class="btn btn-success" id="commentButton">Request</button>
+							<h5 style="color: green" id="commentResponse"></h5>
+						</div>
+						<sec:csrfInput />
+					</form>
 				</div>
 			</div>
 		</div>
@@ -214,7 +221,8 @@
 								<label>New Password</label> <input type="text"
 									class="form-control" name="newPassword">
 							</div>
-							<button class="btn btn-success" data-dismiss="modal" type="submit" id="passwordButton">Save</button>
+							<button class="btn btn-success" data-dismiss="modal"
+								type="submit" id="passwordButton">Save</button>
 							<sec:csrfInput />
 						</form>
 					</div>

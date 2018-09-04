@@ -98,10 +98,7 @@ $(function(){
 		$("#hide9").show();
 	});
 	
-	$(".toggle-btn").on("click",function(e){
-		$("#side").classlist.toggle("active");
-		
-	});
+	
 	
 	$("#submitEmp").on("click",function(e){
 		e.preventDefault();	
@@ -130,8 +127,7 @@ $(function(){
 		$.post("/FileManagement/archiveSearch",$("#archiveForm").serialize(),function(data){
 			console.log("back");
 			$("#archiveForm")[0].reset();
-
- collins
+			document.getElementById("archiveResponse").value=data.payroll;
 			document.getElementById("archiveResponse1").innerHTML="<strong>PAYROLL : </strong>"+data.payroll;
 			document.getElementById("archiveResponse2").innerHTML="<strong>NAME : </strong>"+data.firstName+" "+data.lastName;
 			document.getElementById("archiveResponse3").innerHTML="<strong>DEPARTMENT : </strong>"+data.department;
@@ -141,7 +137,6 @@ $(function(){
 	
 	$("#archiveBtn").on("click",function(e){
 		e.preventDefault();
-
 		var text = document.getElementById("archiveResponse").value;
 	
 		$.post("/FileManagement/archiveEmployee",$("#archivePayrollForm").serialize(),function(data){
@@ -150,15 +145,6 @@ $(function(){
 		});  
 	});  
 	
-		var text = $("#archiveResponse").text();
-		
-		$.post("/FileManagement/archiveEmployee/"+text,function(data){
-			$("#archiveDiv").hide();
-			document.getElementById("archiveRespo").innerHTML=data;
-		});
-		
-	});
-
 	
 	$("#formButton").on("click",function(e){
 		e.preventDefault();
@@ -169,7 +155,6 @@ $(function(){
 			document.getElementById("fillFormResponse").innerHTML=data;
 		});
 	});
-
 	$("#updateButton").on("click",function(e){
 		e.preventDefault();
 		$.post("/FileManagement/updateForm",$("#updateForm").serialize(),function(data){
@@ -275,6 +260,14 @@ $(function(){
 		$.post("/FileManagement/sendEmail",$("#notificationForm").serialize(),function(data){
 			$("#notificationForm")[0].reset();
 			document.getElementById("notificationResponse").innerHTML=data;
+		});
+	});
+	
+	$("#commentButton").on("click",function(e){
+		e.preventDefault();
+		$.post("/FileManagement/sendComment",$("#commentForm").serialize(),function(data){
+			$("#commentForm")[0].reset();
+			document.getElementById("commentResponse").innerHTML=data;
 		});
 	});
 });

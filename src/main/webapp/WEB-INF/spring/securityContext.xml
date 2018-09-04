@@ -11,33 +11,33 @@
 
 
 	<security:http auto-config="true" use-expressions="false">
-		<security:form-login login-page="/login"
+		<security:form-login login-page="/"
 			login-processing-url="/j_spring_security_check" username-parameter="customUsername"
 			password-parameter="customPassword" default-target-url="/employee"
-			authentication-success-handler-ref="customSuccessHandler" />
+			authentication-success-handler-ref="customSuccessHandler"
+			authentication-failure-url="/?failed=true" />
 
        <security:logout logout-url="/logout" logout-success-url="/?logout=true"/>
-       <security:intercept-url pattern="/staff" access="ROLE_STAFF" />  
+       <security:intercept-url pattern="/staff" access="ROLE_STAFF,ROLE_ADMIN" />  
        <security:intercept-url pattern="/admin" access="ROLE_ADMIN" />	
-	   <security:intercept-url pattern="/employee" access="ROLE_EMPLOYEE,ROLE_STAFF,ROLE_DEPARTMENT" />
+	   <security:intercept-url pattern="/employee" access="ROLE_EMPLOYEE,ROLE_STAFF,ROLE_DEPARTMENT,ROLE_ADMIN" />
 	   <security:intercept-url pattern="/department" access="ROLE_DEPARTMENT" />
 		 
 		 
 
 	</security:http>
 	<security:authentication-manager>
-		<security:authentication-provider>
+		<!-- <security:authentication-provider>
 			<security:user-service>
 				<security:user name="admin" password="admin"
 					authorities="ROLE_ADMIN" />
 			</security:user-service>
-		</security:authentication-provider>
+		</security:authentication-provider>   -->
 
 	  <security:authentication-provider
 			user-service-ref="customUserDetailsService">
+			<security:password-encoder hash="sha-256"/>
 		</security:authentication-provider>
-		
-		
 	</security:authentication-manager>
 
 
